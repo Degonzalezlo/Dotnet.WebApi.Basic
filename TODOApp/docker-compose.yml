@@ -1,0 +1,37 @@
+
+
+services:
+  todo-app-api:
+    image: todo-app-api
+    container_name: todo-app-api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      
+    build:
+      context: ./TODO.WebApi
+      dockerfile: Dockerfile
+    ports:
+      - "8980:8080"
+    depends_on:
+      - todoappsqlserver
+    networks:
+      - mynetwork
+
+  todoappsqlserver:
+    image: mcr.microsoft.com/mssql/server:latest
+    container_name: todoappsqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=OtraClaveSegura123!
+    ports:
+      - "14330:1433"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+
+
+
+
